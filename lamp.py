@@ -10,14 +10,14 @@
  For more information see https://github.com/jasonacox/tinytuya
 
 """
-import tinytuya
+# import tinytuya
 import time
 import json
 import random
 
 #tinytuya.set_debug()
 
-print("TinyTuya - Smart Bulb Music Test [%s]\n" % tinytuya.__version__)
+# print("TinyTuya - Smart Bulb Music Test [%s]\n" % tinytuya.__version__)
 #print('TESTING: Device %s at %s with key %s version %s' %
 #      (DEVICEID, DEVICEIP, DEVICEKEY, DEVICEVERS))
 
@@ -29,7 +29,7 @@ class FakeLamp():
     def set_mode(self, mode):
         print("Setting mode to %s" % mode)
 
-    def set_colour(self, color):
+    def set_colour(self, *color):
         print("Setting color to %s" % color)
 
 
@@ -48,7 +48,7 @@ def create_lamp():
     return d
 
 
-d = create_lamp()
+d = FakeLamp()
 # Show status of device
 data = d.status()
 print('\nCurrent Status of Bulb: %r' % data)
@@ -64,18 +64,52 @@ data = d.status()
 x = 0
 def randomb():
     return random.randint(0, 255)
+#hiritick
+def pomodoro():
+  red = (255,0,0)
+  green = (0,255,0)
+  white = (255,255,255)
+  end_color = (0,0,0)
+  work = 25 * 60
+  pause = 5 * 60
+  long_pause = 10 * 60
+  wc = 0
+  while True:
+    print('Começou ciclo de concentração')
+    d.set_colour(red)
+    time.sleep(work)
+    wc = wc + 1
+    print('Hora da pausa curta')
+    d.set_colour(green)
+    time.sleep(pause)
+    if wc % 3 == 0:
+        print('descansa mais que ta pouco')
+        d.set_colour(white)
+        time.sleep(long_pause)
 
-while True:
-    value = "%02d01" % x
-    print (" > Sending %s" % value)
+    print('Parabens vc completou %s ciclo'% wc)
+    for n in range(wc):
+        d.set_colour(end_color)
+        time.sleep(1)
+        d.set_colour(white)
+        time.sleep(1)
+
+
+pomodoro()
+
+
+
+# while True:
+    # value = "%02d01" % x
+    # print (" > Sending %s" % value)
     #payload = d.generate_payload(tinytuya.CONTROL, {"27": value})
     #payload = d.generate_payload(tinytuya.CONTROL, {"24": {"h":  random.randint(0, 360), "s": 50, "v": 100}})
+
     #d.send(payload)
+    # d.set_colour(randomb(), randomb(), randomb())
 
-    d.set_colour(randomb(), randomb(), randomb())
-
-    time.sleep(random.randint(3, 6))
+    # time.sleep(random.randint(3, 6))
 
 # Done
-print('\nDone')
-d.set_white()
+# print('\nDone')
+# d.set_white()
