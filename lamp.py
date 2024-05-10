@@ -64,7 +64,7 @@ data = d.status()
 x = 0
 def randomb():
     return random.randint(0, 255)
-
+#hiritick
 def pomodoro():
   red = (255,0,0)
   green = (0,255,0)
